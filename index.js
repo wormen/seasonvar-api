@@ -45,6 +45,44 @@ class API{
 
 
     /**
+     * Cписок всех сериалов
+     * @param params
+     * @param callback
+     */
+    getSerialList(params, callback){
+        params.command = 'getSerialList';
+        this.send(params, callback);
+    }
+
+
+    /**
+     * Информацию по указанному сезону
+     * @param id
+     * @param callback
+     */
+    getSeason(id, callback){
+        var params = {
+            season_id: id,
+            command: 'getSeason'
+        };
+        this.send(params, callback);
+    }
+
+    /**
+     * Поиск фильма(ов)
+     * @param params
+     *          query - запрос (обязатльный параметр)
+     *          country - массив стран
+     *          genre - массив жанров
+     * @param callback
+     */
+    search(params, callback){
+        params.command = 'search';
+        this.send(params, callback);
+    }
+
+    
+    /**
      * Список последних обновлений на сайте. По умолчанию выводит данные за последние 7 дней.
      * @param params
      *          day_count - Количество дней

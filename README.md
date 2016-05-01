@@ -1,7 +1,6 @@
 # Seasonvar API
 ------------
 [![npm package](https://nodei.co/npm/seasonvar-api.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/seasonvar-api/)
-[![Dependency Status](https://img.shields.io/david/wormen/seasonvar-api.svg?style=flat-square)](https://david-dm.org/wormen/seasonvar-api)
 
 
 
@@ -22,7 +21,7 @@ const SA = new seasonvar({
 });
 ```
 
-Список команд (method)<br/><br/>
+**Список команд (method):**<br/><br/>
 
 Cписок всех сериалов<br/>
 
@@ -68,7 +67,7 @@ SA.getSeason(season_id, function(err, data){
 
 ```js
 var options = {
-    query: 'ваш запрос', // обязатльный параметр
+    query: 'ваш запрос', // обязательный параметр
     country: ['сша', 'россия'], //Список стран (необязательный параметр)
     genre: ['анимационные', 'комедия'], // Список жанров (необязательный параметр)
 };
@@ -85,7 +84,7 @@ var options = {
     day_count: 2, //Количество дней, по умолчанию выводит данные за последние 7 дней (необязательный параметр)
     seasonInfo: false // Дополнительная информация к последнему сезону. По умолчанию - false. (необязательный параметр)
 };
-SA.search(options, function(err, list){
+SA.getUpdateList(options, function(err, list){
     ...
 });
 ```
@@ -123,6 +122,7 @@ SA.getCountryList(options, function(err, list){
 });
 ```
 
+<br/><br/>
 
 ## License
 
