@@ -1,0 +1,23 @@
+{
+  "name": "seasonvar-api",
+  "version": "1.0.0",
+  "description": "The wrapper for use with API seasonvar.ru",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wormen/seasonvar-api.git"
+  },
+  "keywords": [
+    "seasonvar",
+    "api"
+  ],
+  "author": "Oleg Bogdanov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wormen/seasonvar-api/issues"
+  },
+  "homepage": "https://github.com/wormen/seasonvar-api#readme"
+}
