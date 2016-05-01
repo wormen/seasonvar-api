@@ -16,7 +16,7 @@ const typeErr = {
 
 class API{
 
-    constructor(opts = {key: ''}){
+    constructor(opts){
         this.API_URL = 'http://api.seasonvar.ru/';
 
         if(!opts.key || opts.key.length == 0){
@@ -46,8 +46,10 @@ class API{
 
     /**
      * Список последних обновлений на сайте. По умолчанию выводит данные за последние 7 дней.
-     * @param day_count - Количество дней
-     * @param seasonInfo - Дополнительная информация к последнему сезону. По умолчанию - false
+     * @param params
+     *          day_count - Количество дней
+     *          seasonInfo - Дополнительная информация к последнему сезону. По умолчанию - false
+     * @param callback
      */
     getUpdateList(params, callback){
         params.command = 'getUpdateList';
@@ -56,21 +58,68 @@ class API{
         params.seasonInfo = params.seasonInfo ? params.seasonInfo : false;
 
 
-        this.send(params, callback);
+        this.send(params, (err, list)=>{
+            if(err)
+                callback(err, null);
+
+            else{
+
+                for(let i in list){
+                    list[i].id = Number(list[i].id);
+                    list[i].year = Number(list[i].year);
+                    list[i].create_time = Number(list[i].create_time);
+
+                    if(list[i].season)
+                        list[i].season = Number(list[i].season);
+                }
+
+                callback(null, list);
+            }
+        });
     }
 
     /**
      * Cписок всех жанров
+     * @param callback
      */
     getGenreList(callback){
-        this.send({command: 'getGenreList'}, callback);
+        this.send({command: 'getGenreList'}, (err, list)=>{
+            if(err)
+                callback(err, null);
+            else{
+                var arr = [];
+
+                for(let i in list)
+                    arr.push({
+                        id: Number(i),
+                        name: ucFirst(list[i])
+                    });
+
+                callback(null, arr);
+            }
+        });
     }
 
     /**
      * Cписок всех стран
+     * @param callback
      */
     getCountryList(callback){
-        this.send({command: 'getCountryList'}, callback);
+        this.send({command: 'getCountryList'}, (err, list)=>{
+            if(err)
+                callback(err, null);
+            else{
+                var arr = [];
+
+                for(let i in list)
+                    arr.push({
+                        id: Number(i),
+                        name: list[i]
+                    });
+
+                callback(null, arr);
+            }
+        });
     }
 
     /**
@@ -81,22 +130,29 @@ class API{
      *      letter (string) - по букве (или части слова, начиная с начала)
      *
      *  Важно: в одном запросе можно использовать только один параметр.
+     *
+     *  @param callback
      */
-    getSeasonList(param = {}, callback){
+    getSeasonList(param, callback){
         param.command = 'getSeasonList';
         this.send(param, callback);
     }
 
 
-
+    /**
+     * Отправляем запрос в API
+     * @param params
+     * @param callback
+     */
     send(params, callback){
         params.key = this.KEY;
 
         var self = this;
-
+        
+        
         request.post({
             url: this.API_URL,
-            qs: params,
+            form: params,
             json:true
         }, (err, response, body)=> {
             if(err){
@@ -116,3 +172,10 @@ class API{
 }
 
 module.exports = API;
+
+
+
+function ucFirst(str) {
+    if (!str) return str;
+    return str[0].toUpperCase() + str.slice(1);
+}
