@@ -20,6 +20,11 @@ class API{
     constructor(opts = {key: ''}){
         this.API_URL = 'http://api.seasonvar.ru/';
 
+        if(!opts.key || opts.key.length == 0){
+            this.setError(typeErr.noKey);
+            return;
+        }
+
         this.KEY = opts.key;
     }
 
@@ -111,4 +116,4 @@ class API{
     }
 }
 
-export default API;
+module.exports = API;
