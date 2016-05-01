@@ -1,7 +1,7 @@
 {
   "name": "seasonvar-api",
-  "version": "1.0.0",
-  "description": "Обертка дял работы с API seasonvar.ru",
+  "version": "1.0.1",
+  "description": "Обертка для работы с API seasonvar.ru",
   "main": "index.js",
   "repository": {
     "type": "git",
