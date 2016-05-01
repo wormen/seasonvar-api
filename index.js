@@ -5,9 +5,8 @@
 
 "use strict";
 
-import request from "request";
-import VError from "VError";
-
+var request = require("request"),
+    VError = require("VError");
 
 const typeErr = {
     noKey: 'Не указан API ключ',
