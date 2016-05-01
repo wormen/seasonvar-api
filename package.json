@@ -1,11 +1,8 @@
 {
   "name": "seasonvar-api",
   "version": "1.0.0",
-  "description": "The wrapper for use with API seasonvar.ru",
+  "description": "Обертка дял работы с API seasonvar.ru",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wormen/seasonvar-api.git"
@@ -19,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/wormen/seasonvar-api/issues"
   },
-  "homepage": "https://github.com/wormen/seasonvar-api#readme"
+  "homepage": "https://github.com/wormen/seasonvar-api#readme",
+  "dependencies": {
+    "request": "^2.72.0",
+    "verror": "^1.6.1"
+  }
 }
