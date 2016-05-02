@@ -10,7 +10,8 @@ var request = require("request"),
 
 const typeErr = {
     noKey: 'Не указан API ключ',
-    noIP: 'Для вашего IP адреса доступ запрещен'
+    noIP: 'Для вашего IP адреса доступ запрещен',
+    re503: 'Слишком много запросов'
 };
 
 
@@ -65,7 +66,24 @@ class API{
             season_id: id,
             command: 'getSeason'
         };
-        this.send(params, callback);
+        this.send(params, (err, data)=>{
+            if(err)
+                callback(err, null);
+
+            else{
+                data.id = Number(data.id);
+                data.season_number = Number(data.season_number);
+
+                var other_season = [];
+
+                for(let i in data.other_season)
+                    other_season.push(Number(data.other_season[i]));
+
+                data.other_season = other_season;
+
+                callback(null, data);
+            }
+        });
     }
 
     /**
@@ -173,7 +191,24 @@ class API{
      */
     getSeasonList(param, callback){
         param.command = 'getSeasonList';
-        this.send(param, callback);
+        this.send(param, (err, list)=>{
+            if(err)
+                callback(err, null);
+
+            else{
+
+                for(let i in list){
+                    if(list[i].id)
+                        list[i].id = Number(list[i].id);
+
+                    if(list[i].season_number)
+                        list[i].season_number = Number(list[i].season_number);
+                }
+
+                callback(null, list);
+
+            }
+        });
     }
 
 
@@ -202,10 +237,32 @@ class API{
 
                 if(body.error)
                     callback(self.setError(body.error), null);
-                else
-                    callback(err, body);
+                else{
+                    var data = this.checkError(body);
+
+                    if(data.next)
+                        callback(err, body);
+                    else
+                        callback(data.error, null);
+                }
             }
         });
+    }
+
+    checkError(body){
+        var isNext = true,
+            err = null;
+
+        if(typeof body === 'string' && body.includes('503')){
+            isNext = false;
+            err = this.setError(typeErr.re503);
+        }
+
+        return {
+            next: isNext,
+            error: err,
+            data: body
+        }
     }
 }
 
