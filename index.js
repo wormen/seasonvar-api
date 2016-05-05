@@ -6,7 +6,7 @@
 "use strict";
 
 var request = require("request"),
-    VError = require("VError");
+    VError = require("verror");
 
 const typeErr = {
     noKey: 'Не указан API ключ',
@@ -226,7 +226,10 @@ class API{
         request.post({
             url: this.API_URL,
             form: params,
-            json:true
+            json:true,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
         }, (err, response, body)=> {
             if(err){
                 self.Error(err);
